@@ -1,7 +1,7 @@
 # SNPcalling_2022.md
 ## Quality control
 
-Firstly I subset the large files (.gz) recieved from X to 250,000 bp reads. As this is paired-end data I repeated this on read 1 and read 2 independently.
+Firstly I subsetted the large files (.gz) to 250,000 bp reads. As this is paired-end data I repeated this on read 1 and read 2 independently.
 
 ```
 #!/bin/sh 
@@ -31,6 +31,7 @@ I then decided to retain sequences with a minimum (-m) of 30 base pairs in lengt
 module load cutadapt 
 cutadapt -j 4  -a AGATCGGAAGAG -A AGATCGGAAGAG -m 30:30 -o trimmed_GK_GM_S1_R1_sample.fq -p trimmed_GK_GM_S1_R2_sample.fq GK_GM_S1_R1_sample.fq GK_GM_S1_R2_sample.fq 
 ```
+
 I then tested whether this was successful in removing adapter contamination by running fastqc on the output of cutadapt.
 
 ```
@@ -57,10 +58,8 @@ Read 2
 ```
 
 ## Demultiplexing
-
-I started by extracting the .key file containing the barcodes used for each of read 1 and read 2 for the samples in my data. I then loaded this file into a text editor "Sublime Text" for formatting this data, according to section 1.4.2 of the Stacks manual. For specifying combinatorial barcodes with sample names; there is one barcode per column, with two columns for each of the read 1 and read 2 barcodes, and sample names in a separate column included in the barcode file, with each column separated by a tab. 
-
-I then specified the barcode type according to section 1.4.2 of the Stacks manual, as paired end with inline barcodes on the single and paired-ends (--inline_inline)
+q) 
+I started by making two new folders; "raw" for inputting my files for demultiplexing, and "samples" for the output of demultiplexing. I then created links to put my trimmed whole data for read 1 and read 2 into "raw".
 
 ```
 #!/bin/sh 
@@ -76,5 +75,20 @@ cd .. sourcefiles
 module load Stacks/2.58-gimkl-2020a 
  
 ```
+
+Then I extracted the .key file containing the barcodes used for each of read 1 and read 2 of my samples. I loaded this file into a text editor "Sublime Text" for formatting the data, according to section 1.4.2 of the Stacks manual. For specifying combinatorial barcodes with sample names, there is one barcode per column, with two columns for each of the read 1 and read 2 barcodes, and sample names in a separate column with each column separated by a tab.
+
+I then named this file "barcodes.txt" and loaded it onto Stacks.
+
+I used process_radtags for demultiplexing, specifying the barcodes, the restriction enzyme used (-e) as PstI, rescue barcodes and cut sites (-r).I also wanted to have higher quality data so I specified (-c) to remove any reads with uncalled bases and (-q) to discard reads with low quality scores.
+
+Next, I specified the barcode type according to section 1.4.2 of the Stacks manual, as paired end with inline barcodes on the single and paired-ends (--inline_inline)
+
+```
+process_radtags –p raw/ -P -b barcodes.txt -o ./samples/ -e PstI –r –c –q –inline_inline 
+```
+
+
+
 
 

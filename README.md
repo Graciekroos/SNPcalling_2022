@@ -1,7 +1,7 @@
 # SNPcalling_2022.md
 ## Quality control
 
-Firstly I subsetted the large files (.gz) to 250,000 bp reads. As this is paired-end data I repeated this on read 1 and read 2 independently.
+Firstly I subsetted the large files (.gz) to 250,000 bp reads as this will be quicker to test the initial structure and adapter content before working on the whole data. As this is paired-end data I repeated this on read 1 and read 2 independently.
 
 ```
 #!/bin/sh 
@@ -20,7 +20,11 @@ fastqc *fq
 ```
 I then wanted to check the quality of the data using fastqc. 
 
-The fastqc output for read 1 https://jupyter.nesi.org.nz/user/krogr057/lab/workspaces/auto-E/tree/uoo03677/myanalyses/sourcefiles/GK_GM_S1_R1_sample_fastqc.html and read 2 https://jupyter.nesi.org.nz/user/krogr057/lab/workspaces/auto-E/tree/uoo03677/myanalyses/sourcefiles/GK_GM_S1_R2_sample_fastqc.html shows quite a lot of adapter contamination by an Illumina Universal Adapter. 
+The fastqc output for read 1
+https://jupyter.nesi.org.nz/user/krogr057/lab/workspaces/auto-E/tree/uoo03677/myanalyses/sourcefiles/GK_GM_S1_R1_sample_fastqc.html 
+and read 2 https://jupyter.nesi.org.nz/user/krogr057/lab/workspaces/auto-E/tree/uoo03677/myanalyses/sourcefiles/GK_GM_S1_R2_sample_fastqc.html 
+
+shows quite a lot of adapter contamination by an Illumina Universal Adapter. 
 
 Looking at the Illumina support website, this adapter sequence is “AGATCGGAAGAG”. 
 
@@ -58,7 +62,7 @@ Read 2
 ```
 
 ## Demultiplexing
-q) 
+
 I started by making two new folders; "raw" for inputting my files for demultiplexing, and "samples" for the output of demultiplexing. I then created links to put my trimmed whole data for read 1 and read 2 into "raw".
 
 ```
@@ -80,7 +84,7 @@ Then I extracted the .key file containing the barcodes used for each of read 1 a
 
 I then named this file "barcodes.txt" and loaded it onto Stacks.
 
-I used process_radtags for demultiplexing, specifying the barcodes, the restriction enzyme used (-e) as PstI, rescue barcodes and cut sites (-r).I also wanted to have higher quality data so I specified (-c) to remove any reads with uncalled bases and (-q) to discard reads with low quality scores.
+I used process_radtags for demultiplexing, specifying the barcodes.txt file for barcodes, the restriction enzyme used (-e) as PstI, and rescue barcodes and cut sites (-r). I also wanted to have higher quality data so I specified (-c) to remove any reads with uncalled bases and (-q) to discard reads with low quality scores.
 
 Next, I specified the barcode type according to section 1.4.2 of the Stacks manual, as paired end with inline barcodes on the single and paired-ends (--inline_inline)
 

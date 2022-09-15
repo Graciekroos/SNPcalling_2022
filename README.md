@@ -92,6 +92,26 @@ Next, I specified the barcode type according to section 1.4.2 of the Stacks manu
 process_radtags –p raw/ -P -b barcodes.txt -o ./samples/ -e PstI –r –c –q –inline_inline 
 ```
 
+This retains about 90% of reads.
+
+```
+227773798 total sequences 
+20262420 barcode not found drops (8.9%) 
+    99519 low quality read drops (0.0%) 
+  2344424 RAD cutsite not found drops (1.0%) 
+205067435 retained reads (90.0%) 
+```
+
+## Alignment and variant calling
+
+Sample files are now clean and able to be aligned to the reference genome.
+
+The first step is to index the genome.
+
+
+
+
+
 
 
 

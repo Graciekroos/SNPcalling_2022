@@ -129,7 +129,21 @@ I then needed the package samtools for the next step.
 module load SAMtools 
 ```
 
-BWA was then used to align every sample to the reference genome. One example command below; the rest are in [align.sh] (align.sh)
+BWA was then used to align each of read 1 and ead 2 for every sample to the reference stonefly genome using a loop. One example command below; all commands can be found in align.sh.
+
+```
+#!/bin/sh 
+src=../samples/ 
+bwa_db=stoneflygenomeassemblyv1.fasta 
+for sample in $files 
+do  
+    echo $sample 
+    bwa mem -t 4 $bwa_db $src/${sample}.1.fq.gz $src/${sample}.2.fq.gz |   samtools view -b | samtools sort --threads 4 > ${sample}.bam 
+done 
+```
+
+
+
 
 
 

@@ -84,7 +84,7 @@ Then I extracted the .key file containing the barcodes used for each of read 1 a
 
 I then named this file "barcodes.txt" and loaded it onto Stacks.
 
-I used process_radtags for demultiplexing, specifying the barcodes.txt file for barcodes, the restriction enzyme used (-e) as PstI, and rescue barcodes and cut sites (-r). I also wanted to have higher quality data so I specified (-c) to remove any reads with uncalled bases and (-q) to discard reads with low quality scores.
+I used process_radtags for demultiplexing, specifying the data is paired end (-P), the barcodes.txt file for barcodes, the restriction enzyme used as PstI (-e)  and rescue barcodes and cut sites (-r). I also wanted to have higher quality data so I specified (-c) to remove any reads with uncalled bases and (-q) to discard reads with low quality scores.
 
 Next, I specified the barcode type according to section 1.4.2 of the Stacks manual, as paired end with inline barcodes on the single and paired-ends (--inline_inline)
 
@@ -106,9 +106,30 @@ This retains about 90% of reads.
 
 Sample files are now clean and able to be aligned to the reference genome.
 
-The first step is to index the genome.
+The first step is to index the genome. To do this I need to use Burrows-Wheeler Aligner (BWA).
 
+```
+#!/bin/sh 
+module load BWA 
+bwa index stoneflygenomeassemblyv1.fasta 
+```
 
+I then created a new folder "alignment" and moved the indexed genome to this folder to conduct alignment.
+
+```
+mkdir alignment 
+$ cd alignment 
+cp ../^C 
+cp ../stoneflygenomeassemblyv1.fasta* ./ 
+```
+
+I then needed the package samtools for the next step.
+
+```
+module load SAMtools 
+```
+
+BWA was then used to align every sample to the reference genome. One example command below; the rest are in [align.sh] (align.sh)
 
 
 

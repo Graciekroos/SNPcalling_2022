@@ -123,8 +123,6 @@ cp ../^C
 cp ../stoneflygenomeassemblyv1.fasta* ./ 
 ```
 
-I then needed the package samtools for the next step.
-
 ```
 module load SAMtools 
 ```

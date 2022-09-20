@@ -13,18 +13,15 @@ zcat  GK_GM_S1_R1_001.fastq.gz | head -n 1000000 > GK_GM_S1_R1_sample.fq
 zcat  GK_GM_S1_R2_001.fastq.gz | head -n 1000000 > GK_GM_S1_R2_sample.fq 
 ```
 
+I then wanted to check the quality of the data using fastqc. 
+
 ```
 #!/bin/sh 
 module load FastQC 
 fastqc *fq 
 ```
-I then wanted to check the quality of the data using fastqc. 
 
-The fastqc output for read 1
-https://jupyter.nesi.org.nz/user/krogr057/lab/workspaces/auto-E/tree/uoo03677/myanalyses/sourcefiles/GK_GM_S1_R1_sample_fastqc.html 
-and read 2 https://jupyter.nesi.org.nz/user/krogr057/lab/workspaces/auto-E/tree/uoo03677/myanalyses/sourcefiles/GK_GM_S1_R2_sample_fastqc.html 
-
-shows quite a lot of adapter contamination by an Illumina Universal Adapter. 
+The fastqc output for read 1 and read 2 shows quite a lot of adapter contamination by an Illumina Universal Adapter. 
 
 Looking at the Illumina support website, this adapter sequence is “AGATCGGAAGAG”. 
 
@@ -42,7 +39,7 @@ I then tested whether this was successful in removing adapter contamination by r
 fastqc trimmed_GK_GM_S1_R1_sample.fq trimmed_GK_GM_S1_R2_sample.fq 
 ```
 
-Output by fastqc for read 1 (https://jupyter.nesi.org.nz/user/krogr057/lab/tree/uoo03677/myanalyses/sourcefiles/trimmed_GK_GM_S1_R1__fastqc.html) and read 2 (https://jupyter.nesi.org.nz/user/krogr057/lab/tree/uoo03677/myanalyses/sourcefiles/trimmed_GK_GM_S1_R2__fastqc.html) show adapter contamination was successfully removed.
+Output by fastqc for read 1 and read 2 show adapter contamination was successfully removed.
 
 I then ran cutadapt on the whole data and checked this was successful in removing adapter contamination using fastqc.
 
@@ -63,7 +60,7 @@ Read 2
 
 ## Demultiplexing
 
-I started by making two new folders; "raw" for inputting my files for demultiplexing, and "samples" for the output of demultiplexing. I then created links to put my trimmed whole data for read 1 and read 2 into "raw".
+I could then demultiplex my samples based on their barcode. I started by making two new folders; "raw" for inputting my files, and "samples" for the output of demultiplexing. I then created links to put my trimmed whole data for read 1 and read 2 into "raw".
 
 ```
 #!/bin/sh 
@@ -80,16 +77,16 @@ module load Stacks/2.58-gimkl-2020a
  
 ```
 
-Then I extracted the .key file containing the barcodes used for each of read 1 and read 2 of my samples. I loaded this file into a text editor "Sublime Text" for formatting the data, according to section 1.4.2 of the Stacks manual. For specifying combinatorial barcodes with sample names, there is one barcode per column, with two columns for each of the read 1 and read 2 barcodes, and sample names in a separate column with each column separated by a tab.
+Then I extracted the .key file containing the barcodes used for each of read 1 and read 2 of samples. I loaded this file into a text editor for formatting the data, according to section 1.4.2 of the Stacks manual (for specifying combinatorial barcodes with sample names, there is one barcode per column, with two columns for each of the read 1 and read 2 barcodes, and sample names in a separate column with each column separated by a tab).
 
 I then named this file "barcodes.txt" and loaded it onto Stacks.
 
-I used process_radtags for demultiplexing, specifying the data is paired end (-P), the barcodes.txt file for barcodes, the restriction enzyme used as PstI (-e)  and rescue barcodes and cut sites (-r). I also wanted to have higher quality data so I specified (-c) to remove any reads with uncalled bases and (-q) to discard reads with low quality scores.
+I used process_radtags for demultiplexing, specifying the data is paired end (-P), the barcodes.txt file for barcodes, the restriction enzyme used as PstI (-e)  and for the program to rescue barcodes and cut sites (-r). I also wanted to have higher quality data so I specified (-c) to remove any reads with uncalled bases and (-q) to discard reads with low quality scores.
 
 Next, I specified the barcode type according to section 1.4.2 of the Stacks manual, as paired end with inline barcodes on the single and paired-ends (--inline_inline)
 
 ```
-process_radtags –p raw/ -P -b barcodes.txt -o ./samples/ -e PstI –r –c –q –inline_inline 
+process_radtags –p raw/ -P -b barcodes.txt -o ./samples/ -e PstI –r –c –q --inline_inline 
 ```
 
 This retains about 90% of reads.
@@ -104,9 +101,9 @@ This retains about 90% of reads.
 
 ## Alignment and variant calling
 
-Sample files are now clean and able to be aligned to the reference genome.
+Sample files were then clean and able to be aligned to the reference genome.
 
-The first step is to index the genome. To do this I need to use Burrows-Wheeler Aligner (BWA).
+The first step was to index the genome. To do this I used Burrows-Wheeler Aligner (BWA).
 
 ```
 #!/bin/sh 
@@ -127,7 +124,7 @@ cp ../stoneflygenomeassemblyv1.fasta* ./
 module load SAMtools 
 ```
 
-BWA was then used to align each of read 1 and ead 2 for every sample to the reference stonefly genome using a loop. One example command below; all commands can be found in align.sh.
+BWA and samtools were then used to align each of read 1 and read 2 for every sample to the reference stonefly genome using a loop command. One example command below; all commands can be found in align.sh.
 
 ```
 #!/bin/sh 
@@ -140,6 +137,17 @@ do
 done 
 ```
 
+I then created a folder "aligned_samples" and moved the BAM output files from reference alignment into this folder. I also created the folder "output_refmap" for the output of stacks programme refmap.
+
+```
+#!/bin/sh 
+module load Stacks 
+mkdir output_refmap 
+
+mkdir aligned_samples 
+```
+
+I then made a text file in a text editor called popmap.txt and imported into the alignment folder of stacks. I was then able to run the stacks programme refmap to identify any low quality individuals.
 
 
 

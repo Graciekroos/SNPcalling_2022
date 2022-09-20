@@ -74,7 +74,6 @@ cd .. sourcefiles
 ```
 #!/bin/sh 
 module load Stacks/2.58-gimkl-2020a 
- 
 ```
 
 Then I extracted the .key file containing the barcodes used for each of read 1 and read 2 of samples. I loaded this file into a text editor for formatting the data, according to section 1.4.2 of the Stacks manual (for specifying combinatorial barcodes with sample names, there is one barcode per column, with two columns for each of the read 1 and read 2 barcodes, and sample names in a separate column with each column separated by a tab).

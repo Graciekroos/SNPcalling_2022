@@ -230,6 +230,14 @@ populations -P output_refmap/ -M popmap_nooutliersmissing.txt  --vcf --structure
 
 67571 variant sites remained for 171 individuals  
 
+I then downloaded the following files:
+
+```
+populations.plink.ped
+populations.plink.map
+populations.structure 
+populations.snps.vcf.gz
+```
 
 
 

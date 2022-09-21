@@ -88,7 +88,7 @@ module load Stacks/2.58-gimkl-2020a
 
 For demultiplexing, I specified the data as paired end (-P), the barcodes.txt file for barcodes, the restriction enzyme used as PstI (-e)  and for the program to rescue barcodes and cut sites (-r). I also wanted to have higher quality data so I specified (-c) to remove any reads with uncalled bases and (-q) to discard reads with low quality scores.
 
-Next, I specified the barcode type according to section 1.4.2 of the Stacks manual, as paired end with inline barcodes on the single and paired-ends (--inline_inline)
+I also specified the barcode type according to section 1.4.2 of the Stacks manual, as paired end with inline barcodes on the single and paired-ends (--inline_inline)
 
 ```
 process_radtags –p raw/ -P -b barcodes.txt -o ./samples/ -e PstI –r –c –q --inline_inline 
@@ -125,7 +125,7 @@ cp ../^C
 cp ../stoneflygenomeassemblyv1.fasta* ./ 
 ```
 
-BWA and samtools were then used to align each of read 1 and read 2 for every sample to the reference stonefly genome using a loop command. One example command below; all commands can be found in align.sh.
+BWA and samtools were then used to align each of read 1 and read 2 for every sample to the reference stonefly genome using a loop command. All commands can be found in align.sh.
 
 ```
 module load SAMtools 

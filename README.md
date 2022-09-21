@@ -157,7 +157,7 @@ I then used a text editor to make a file called popmap.txt. This file excluded 8
 ref_map.pl --samples ./aligned_samples/ --popmap ./popmap.txt -t 4 -o ./output_refmap 
 ```
 
-An error at sample bj_23 prevented the programme refmap from finishing. Using the command ls -lh revealed samples that had been run by refmap and their respective read sizes. I identified samples that had low read sizes, and used Fastqc to inspect the total sequences. If samples had less than 200K reads and less than 200bp total sequence on Fastqc, they were removed from the popmap.txt file. Four samples were removed: bj_23, bj_24, gor_07, jim_19. This allowed the programme refmap to finish running.
+An error at sample bj_23 prevented the programme refmap from finishing. Using the command ```ls -lh``` revealed samples that had been run by refmap and their respective read sizes. I identified samples that had low read sizes, and used Fastqc to inspect the total sequences. If samples had less than 200K reads and less than 200bp total sequence on Fastqc, they were removed from the popmap.txt file. Four samples were removed: bj_23, bj_24, gor_07, jim_19. This allowed the programme refmap to finish running.
 
 ```
 ls -lh

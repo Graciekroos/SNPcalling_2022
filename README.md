@@ -77,14 +77,16 @@ ln -s ../trimmed_GK_GM_S1_R2_.fq trimmed_GK_GM_S1_R2_001.fastq
 cd ..  
 ```
 
+Then I extracted the .key file containing the barcodes used for each of read 1 and read 2 of samples. I loaded this file into a text editor for formatting the data, according to section 1.4.2 of the Stacks manual. I then named this file "barcodes.txt" and loaded it onto Stacks.
+
+I then loaded stacks to use process_radtags for demultiplexing.
+
 ```
 #!/bin/sh 
 module load Stacks/2.58-gimkl-2020a 
 ```
 
-Then I extracted the .key file containing the barcodes used for each of read 1 and read 2 of samples. I loaded this file into a text editor for formatting the data, according to section 1.4.2 of the Stacks manual. I then named this file "barcodes.txt" and loaded it onto Stacks.
-
-I used process_radtags for demultiplexing, specifying the data is paired end (-P), the barcodes.txt file for barcodes, the restriction enzyme used as PstI (-e)  and for the program to rescue barcodes and cut sites (-r). I also wanted to have higher quality data so I specified (-c) to remove any reads with uncalled bases and (-q) to discard reads with low quality scores.
+For demultiplxing, I specified the data is paired end (-P), the barcodes.txt file for barcodes, the restriction enzyme used as PstI (-e)  and for the program to rescue barcodes and cut sites (-r). I also wanted to have higher quality data so I specified (-c) to remove any reads with uncalled bases and (-q) to discard reads with low quality scores.
 
 Next, I specified the barcode type according to section 1.4.2 of the Stacks manual, as paired end with inline barcodes on the single and paired-ends (--inline_inline)
 

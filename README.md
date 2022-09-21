@@ -1,7 +1,7 @@
 # SNPcalling_2022.md
 ## Quality control
 
-I started by creating folders called myanalyses and sourcefiles as a place for all the ouput files.
+I started by creating folders called myanalyses and sourcefiles to store my ouput files.
 
 ```
 mkdir myanalyses

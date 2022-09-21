@@ -169,7 +169,7 @@ fastqc gor_07.bam
 fastqc jim_19.bam
 ```
 
-I then ran populations using stacks to obtain a variant call format (VCF) of my samples for future analyses. I specified a maximum observed hetrozygosiy rate of 0.65 (--max-obs-het), tolerating a maximum of 25% missing data (-r), and using a programme that infers patterns of migration and splitting events in population history (--treemix). 
+I then ran populations using Stacks to obtain a variant call format (VCF) of my samples for future analyses. I specified a maximum observed hetrozygosiy rate of 0.65 (--max-obs-het), tolerating a maximum of 25% missing data at any given site (-r), and using a programme that infers patterns of migration and splitting events in population history (--treemix). 
 
 ```
 populations -P output_refmap/ -M popmap.txt  --vcf --structure --plink --treemix --max-obs-het 0.65 -r 0.75  -O output_refmap 
@@ -222,10 +222,13 @@ I then removed the nine low-quality individuals from “popmap.txt” and saved 
 cat popmap.txt | grep -v tim_18 | grep -v wil_20 | grep -v elb_15 | grep -v gor_17 | grep -v gor_19 | grep -v gor_09 | grep -v bj_18 | grep -v tim_19 | grep -v elb_12 > popmap_nooutliersmissing.txt 
 ```
 
+I re-ran populations using Stacks, tolerating a maximum of 20% missing data at any given site (-r): 
 
+```
+populations -P output_refmap/ -M popmap_nooutliersmissing.txt  --vcf --structure --plink --treemix --max-obs-het 0.65 -r 0.80  -O output_refmap 
+```
 
-
-
+67571 variant sites remained for 171 individuals  
 
 
 

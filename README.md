@@ -94,7 +94,7 @@ I also specified the barcode type according to section 1.4.2 of the Stacks manua
 process_radtags –p raw/ -P -b barcodes.txt -o ./samples/ -e PstI –r –c –q --inline_inline 
 ```
 
-This retains about 90% of reads.
+This retains 90% of reads.
 
 ```
 227773798 total sequences 

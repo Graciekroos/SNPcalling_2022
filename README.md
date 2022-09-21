@@ -125,7 +125,7 @@ cp ../^C
 cp ../stoneflygenomeassemblyv1.fasta* ./ 
 ```
 
-The BWA-MEM algorithm and Samtools were then used to align each of read 1 and read 2 for every sample to the reference stonefly genome using a loop command. I specified the number of CPU's the programme was running as 4 (-t). All commands can be found in align.sh.
+The BWA-MEM algorithm and SAMtools were then used to align each of read 1 and read 2 for every sample to the reference stonefly genome using a loop command. I specified the number of CPU's the programme was running as 4 (-t). All commands can be found in align.sh.
 
 ```
 module load SAMtools 
@@ -142,7 +142,7 @@ do
 done 
 ```
 
-I then wanted to run the Stacks programme refmap to identify any low-quality individuals. To do this I created a folder "aligned_samples" and moved the BAM output files from reference alignment into this folder, to be used as input for refmap. I also created the folder "output_refmap" for the output of refmap.
+I then wanted to run the Stacks programme refmap to identify any low-quality individuals. To do this I created a folder "aligned_samples" and moved the BAM output files from reference alignment into this folder, to use as input for refmap. I also created the folder "output_refmap" for the output of refmap.
 
 ```
 #!/bin/sh 
@@ -157,7 +157,7 @@ I then used a text editor to make a file called popmap.txt. This file excluded 8
 ref_map.pl --samples ./aligned_samples/ --popmap ./popmap.txt -t 4 -o ./output_refmap 
 ```
 
-Using the command ls -lh reveals samples that had been run by refmap and their respective read sizes. I identified samples that had low read sizes, and used Fastqc to inspect the total sequences. If samples had less than 200K reads and less than 200bp total sequence on Fastqc, they were removed. These sequences were removed (bj_23, bj_24, gor_07, jim_19) before continuing. 
+An error at sample bj_23 prevented the programme refmap from finishing. Using the command ls -lh revealed samples that had been run by refmap and their respective read sizes. I identified samples that had low read sizes, and used Fastqc to inspect the total sequences. If samples had less than 200K reads and less than 200bp total sequence on Fastqc, they were removed from the popmap.txt file. Four samples were removed: bj_23, bj_24, gor_07, jim_19. This allowed the programme refmap to finish running.
 
 ```
 ls -lh
@@ -168,7 +168,7 @@ fastqc gor_07.bam
 fastqc jim_19.bam
 ```
 
-I then ran populations using Stacks to obtain a variant call format (VCF) of my samples for future analyses. I specified a maximum observed hetrozygosiy rate of 0.65 (--max-obs-het), tolerating a maximum of 25% missing data at any given site (-r), and using a programme that infers patterns of migration and splitting events in population history (--treemix). 
+I then ran populations using Stacks to obtain a variant call format (VCF) of my samples for future analyses. I specified a maximum observed hetrozygosiy rate of 0.65 (--max-obs-het), tolerated a maximum of 25% missing data at any given site (-r), and used a programme that inferred patterns of migration and splitting events in population history (--treemix). 
 
 ```
 populations -P output_refmap/ -M popmap.txt  --vcf --structure --plink --treemix --max-obs-het 0.65 -r 0.75  -O output_refmap 
@@ -178,7 +178,7 @@ populations -P output_refmap/ -M popmap.txt  --vcf --structure --plink --treemix
 77678 variant sites remained 
 ```
 
-I then wanted to find out more about each individual, in case I needed to filter out any low quality individuals. To do this I ran vcftools.
+I then wanted to find out more about each individual, in case I needed to filter out any more low-quality individuals. To do this I ran VCFtools.
 
 ```
 module load VCFtools 
@@ -186,7 +186,7 @@ cd output_refmap
 vcftools --vcf populations.snps.vcf --missing-indv
 ```
 
-I then inspected the ouput folder created by vcftools called "out.imiss" to look for individuals that were missing a lot of data.
+I then inspected the ouput folder created by VCFtools called "out.imiss" to look for individuals that were missing a lot of data.
 
 Some low-quality individuals with around 20% missing data which I retained as they still had plenty of data: 
 

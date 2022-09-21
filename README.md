@@ -77,9 +77,9 @@ ln -s ../trimmed_GK_GM_S1_R2_.fq trimmed_GK_GM_S1_R2_001.fastq
 cd ..  
 ```
 
-Then I extracted the .key file containing the barcodes used for each of read 1 and read 2 of samples. I loaded this file into a text editor for formatting the data, according to section 1.4.2 of the Stacks manual. I then named this file "barcodes.txt" and loaded it onto Stacks.
+Then I extracted the .key file containing the barcodes used for each of read 1 and read 2 of samples. I loaded this file into a text editor for formatting the data, according to section 1.4.2 of the Stacks manual. I named this file "barcodes.txt" and loaded it into the myanalyses folder.
 
-I then loaded stacks to use process_radtags for demultiplexing.
+I then loaded Stacks to use the programme process_radtags for demultiplexing.
 
 ```
 #!/bin/sh 

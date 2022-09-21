@@ -74,7 +74,7 @@ mkdir raw samples
 cd raw 
 ln -s ../trimmed_GK_GM_S1_R1_.fq trimmed_GK_GM_S1_R1_001.fastq 
 ln -s ../trimmed_GK_GM_S1_R2_.fq trimmed_GK_GM_S1_R2_001.fastq 
-cd .. sourcefiles 
+cd ..  
 ```
 
 ```

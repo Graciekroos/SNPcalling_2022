@@ -1,15 +1,21 @@
 # SNPcalling_2022.md
 ## Quality control
 
-Firstly I subsetted the large files (.gz) to 250,000 bp reads as this will be quicker to test the initial structure and adapter content before working on the whole data. As this is paired-end data I repeated this on read 1 and read 2 independently.
+I started by creating folders called myanalyses and sourcefiles as a place for all the ouput files.
 
 ```
-#!/bin/sh 
-# in sourcefiles 
+mkdir myanalyses
+mkdir sourcefiles
+cd sourcefiles
+```
+
+I then subsetted the large files (.gz) to 250,000 bp reads as this will be quicker to test the initial structure and adapter content before working on the whole data. As this is paired-end data I repeated this on read 1 and read 2 independently.
+
+```
+#!/bin/sh  
 zcat  GK_GM_S1_R1_001.fastq.gz | head -n 1000000 > GK_GM_S1_R1_sample.fq 
 
-#!/bin/sh 
-# in sourcefiles 
+#!/bin/sh  
 zcat  GK_GM_S1_R2_001.fastq.gz | head -n 1000000 > GK_GM_S1_R2_sample.fq 
 ```
 
@@ -60,7 +66,7 @@ Read 2
 
 ## Demultiplexing
 
-I could then demultiplex my samples based on their barcode. I started by making two new folders; "raw" for inputting my files, and "samples" for the output of demultiplexing. I then created links to put my trimmed whole data for read 1 and read 2 into "raw".
+I could then demultiplex my samples based on their barcode. I started by making two new folders; "raw" for inputting my files to be demultiplexed, and "samples" for the output of demultiplexing. I then created links to put my trimmed whole data for read 1 and read 2 into "raw".
 
 ```
 #!/bin/sh 
@@ -76,9 +82,7 @@ cd .. sourcefiles
 module load Stacks/2.58-gimkl-2020a 
 ```
 
-Then I extracted the .key file containing the barcodes used for each of read 1 and read 2 of samples. I loaded this file into a text editor for formatting the data, according to section 1.4.2 of the Stacks manual (for specifying combinatorial barcodes with sample names, there is one barcode per column, with two columns for each of the read 1 and read 2 barcodes, and sample names in a separate column with each column separated by a tab).
-
-I then named this file "barcodes.txt" and loaded it onto Stacks.
+Then I extracted the .key file containing the barcodes used for each of read 1 and read 2 of samples. I loaded this file into a text editor for formatting the data, according to section 1.4.2 of the Stacks manual. I then named this file "barcodes.txt" and loaded it onto Stacks.
 
 I used process_radtags for demultiplexing, specifying the data is paired end (-P), the barcodes.txt file for barcodes, the restriction enzyme used as PstI (-e)  and for the program to rescue barcodes and cut sites (-r). I also wanted to have higher quality data so I specified (-c) to remove any reads with uncalled bases and (-q) to discard reads with low quality scores.
 
@@ -136,7 +140,7 @@ do
 done 
 ```
 
-I then created a folder "aligned_samples" and moved the BAM output files from reference alignment into this folder. I also created the folder "output_refmap" for the output of stacks programme refmap.
+I then wanted to run the stacks programme refmap to identify any low quality individuals. To do this I firstly created a folder "aligned_samples" and moved the BAM output files from reference alignment into this folder, to be used as input for refmap. I also created the folder "output_refmap" for the output of refmap.
 
 ```
 #!/bin/sh 
@@ -146,7 +150,75 @@ mkdir output_refmap
 mkdir aligned_samples 
 ```
 
-I then made a text file in a text editor called popmap.txt and imported into the alignment folder of stacks. I was then able to run the stacks programme refmap to identify any low quality individuals.
+I then made a text file in a text editor called popmap.txt, not including 8 samples that were not part of my data but were run on the same lane, and imported this into the alignment folder. I was then able to run refmap, specifying the number of CPU's the programme was running as 4 (-T).
+
+```
+ref_map.pl --samples ./aligned_samples/ --popmap ./popmap.txt -T 4 -o ./output_refmap 
+```
+
+Using the command ls -lh reveals samples that had been run by refmap and their respective read sizes. I identified samples that had low read sizes, and used Fastqc to inspect the total sequences. If samples had less than 200K reads and less than 200bp sequence on Fastqc, they were removed. These sequences were removed (bj_23, bj_24, gor_07, jim_19) before continuing. 
+
+```
+ls -lh
+
+fastqc bj_23.bam
+fastqc bj_24.bam
+fastqc gor_07.bam
+fastqc jim_19.bam
+```
+
+I then ran populations using stacks to obtain a variant call format (VCF) of my samples for future analyses. I specified a maximum observed hetrozygosiy rate of 0.65 (--max-obs-het), tolerating a maximum of 25% missing data (-r), and using a programme that infers patterns of migration and splitting events in population history (--treemix). 
+
+```
+populations -P output_refmap/ -M popmap.txt  --vcf --structure --plink --treemix --max-obs-het 0.65 -r 0.75  -O output_refmap 
+```
+
+```
+77678 variant sites remained 
+```
+
+I then wanted to find out more about each individual, in case I needed to filter out any low quality individuals. To do this I ran vcftools.
+
+```
+module load VCFtools 
+cd output_refmap 
+vcftools --vcf populations.snps.vcf --missing-indv
+```
+
+I then inspected the ouput folder created by vcftools called "out.imiss" to look for individuals that were missing a lot of data.
+
+Some low-quality individuals with around 20% missing data which I retained as they still had plenty of data: 
+
+```
+coal_03   15729    0.20249 
+coal_07   15695    0.202052 
+coal_01   16204    0.208605 
+elb_09	   16926    0.2179 
+coal_18   20333    0.26176 
+tim_01	   15798    0.203378 
+gor_11	   19060    0.245372 
+gor_18	   18369    0.236476 
+```
+
+Some low-quality individuals with more than 50% missing data which I removed:
+
+```
+tim_18	    42185    0.543075 
+wil_20	    54362    0.699838 
+elb_15     60330    0.776668 
+gor_17     70113    0.902611 
+gor_19	    70788    0.9113 
+gor_09	    72940    0.939005 
+bj_18	     76409    0.983663 
+tim_19	    76685    0.987216 
+elb_12	    76747    0.988015 
+```
+
+I then removed the nine low-quality individuals from “popmap.txt” and saved this as “popmap_nooutliersmissing.txt” which I used for further analyses.
+
+```
+cat popmap.txt | grep -v tim_18 | grep -v wil_20 | grep -v elb_15 | grep -v gor_17 | grep -v gor_19 | grep -v gor_09 | grep -v bj_18 | grep -v tim_19 | grep -v elb_12 > popmap_nooutliersmissing.txt 
+```
 
 
 

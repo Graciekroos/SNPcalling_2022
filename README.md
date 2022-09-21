@@ -125,11 +125,11 @@ cp ../^C
 cp ../stoneflygenomeassemblyv1.fasta* ./ 
 ```
 
+BWA and samtools were then used to align each of read 1 and read 2 for every sample to the reference stonefly genome using a loop command. One example command below; all commands can be found in align.sh.
+
 ```
 module load SAMtools 
 ```
-
-BWA and samtools were then used to align each of read 1 and read 2 for every sample to the reference stonefly genome using a loop command. One example command below; all commands can be found in align.sh.
 
 ```
 #!/bin/sh 

@@ -142,7 +142,7 @@ do
 done 
 ```
 
-I then wanted to run the Stacks programme refmap to identify any low-quality individuals. To do this I created a folder "aligned_samples" and moved the BAM output files from reference alignment into this folder, to use as input for refmap. I also created the folder "output_refmap" for the output of refmap.
+I then wanted to run the Stacks programme refmap to filter out any low-quality individuals. To do this I created a folder "aligned_samples" and moved the BAM output files from reference alignment into this folder, to use as input for refmap. I also created the folder "output_refmap" for the output of refmap.
 
 ```
 #!/bin/sh 
@@ -168,7 +168,7 @@ fastqc gor_07.bam
 fastqc jim_19.bam
 ```
 
-I then ran populations using Stacks to obtain a variant call format (VCF) of my samples for future analyses. I specified a maximum observed hetrozygosiy rate of 0.65 (--max-obs-het), tolerated a maximum of 25% missing data at any given site (-r), and used a programme that inferred patterns of migration and splitting events in population history (--treemix). 
+I then ran populations using Stacks to obtain a variant call format (VCF) of my samples for future analyses. I used some parameters for filtering, for example I specified a maximum observed heterozygosity rate of 0.65 (--max-obs-het), and tolerated a maximum of 25% missing data at any given site (-r). I also used a programme that inferred patterns of migration and splitting events in population history (--treemix). 
 
 ```
 populations -P output_refmap/ -M popmap.txt  --vcf --structure --plink --treemix --max-obs-het 0.65 -r 0.75  -O output_refmap 

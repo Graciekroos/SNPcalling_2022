@@ -148,7 +148,6 @@ I then wanted to run the Stacks programme refmap to identify any low-quality ind
 #!/bin/sh 
 module load Stacks 
 mkdir output_refmap 
-
 mkdir aligned_samples 
 ```
 

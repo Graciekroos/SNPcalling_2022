@@ -151,7 +151,7 @@ mkdir output_refmap
 mkdir aligned_samples 
 ```
 
-I then made a text file in a text editor called popmap.txt. This file excluded 8 samples that were not part of my data but were run on the same lane. I then imported this into the alignment folder. I was then able to run refmap, specifying the number of CPU's the programme was running as 4 (-T).
+I then used a text editor to make a file called popmap.txt. This file excluded 8 samples that were not part of my data but were run on the same lane. I then imported this into the alignment folder. I was then able to run refmap, specifying the number of CPU's the programme was running as 4 (-T).
 
 ```
 ref_map.pl --samples ./aligned_samples/ --popmap ./popmap.txt -T 4 -o ./output_refmap 

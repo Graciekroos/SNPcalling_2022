@@ -125,7 +125,7 @@ cp ../^C
 cp ../stoneflygenomeassemblyv1.fasta* ./ 
 ```
 
-BWA and samtools were then used to align each of read 1 and read 2 for every sample to the reference stonefly genome using a loop command. All commands can be found in align.sh.
+The BWA-MEM algorithm of BWA and samtools were then used to align each of read 1 and read 2 for every sample to the reference stonefly genome using a loop command. I specified the number of CPU's the programme was running as 4 (-t). All commands can be found in align.sh.
 
 ```
 module load SAMtools 
@@ -151,10 +151,10 @@ mkdir output_refmap
 mkdir aligned_samples 
 ```
 
-I then used a text editor to make a file called popmap.txt. This file excluded 8 samples that were not part of my data but were run on the same lane. I imported popmap.txt into the alignment folder. I was then able to run refmap, specifying the number of CPU's the programme was running as 4 (-T).
+I then used a text editor to make a file called popmap.txt. This file excluded 8 samples that were not part of my data but were run on the same lane. I imported popmap.txt into the alignment folder. I was then able to run refmap, specifying the number of CPU's the programme was running as 4 (-t).
 
 ```
-ref_map.pl --samples ./aligned_samples/ --popmap ./popmap.txt -T 4 -o ./output_refmap 
+ref_map.pl --samples ./aligned_samples/ --popmap ./popmap.txt -t 4 -o ./output_refmap 
 ```
 
 Using the command ls -lh reveals samples that had been run by refmap and their respective read sizes. I identified samples that had low read sizes, and used Fastqc to inspect the total sequences. If samples had less than 200K reads and less than 200bp sequence on Fastqc, they were removed. These sequences were removed (bj_23, bj_24, gor_07, jim_19) before continuing. 

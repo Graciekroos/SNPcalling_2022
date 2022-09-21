@@ -232,12 +232,11 @@ populations -P output_refmap/ -M popmap_nooutliersmissing.txt  --vcf --structure
 
 I then downloaded the following files:
 
-```
 populations.plink.ped
 populations.plink.map
 populations.structure 
 populations.snps.vcf.gz
-```
+
 
 
 

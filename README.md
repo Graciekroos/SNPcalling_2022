@@ -142,7 +142,7 @@ do
 done 
 ```
 
-I then wanted to run the Stacks programme refmap to identify any low-quality individuals. To do this I firstly created a folder "aligned_samples" and moved the BAM output files from reference alignment into this folder, to be used as input for refmap. I also created the folder "output_refmap" for the output of refmap.
+I then wanted to run the Stacks programme refmap to identify any low-quality individuals. To do this I created a folder "aligned_samples" and moved the BAM output files from reference alignment into this folder, to be used as input for refmap. I also created the folder "output_refmap" for the output of refmap.
 
 ```
 #!/bin/sh 

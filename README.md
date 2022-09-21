@@ -125,7 +125,7 @@ cp ../^C
 cp ../stoneflygenomeassemblyv1.fasta* ./ 
 ```
 
-The BWA-MEM algorithm of BWA and samtools were then used to align each of read 1 and read 2 for every sample to the reference stonefly genome using a loop command. I specified the number of CPU's the programme was running as 4 (-t). All commands can be found in align.sh.
+The BWA-MEM algorithm and samtools were then used to align each of read 1 and read 2 for every sample to the reference stonefly genome using a loop command. I specified the number of CPU's the programme was running as 4 (-t). All commands can be found in align.sh.
 
 ```
 module load SAMtools 

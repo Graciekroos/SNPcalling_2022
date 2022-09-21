@@ -194,7 +194,7 @@ Some low-quality individuals with around 20% missing data which I retained as th
 coal_03   15729     0.20249 
 coal_07   15695     0.202052 
 coal_01   16204     0.208605 
-elb_09	    16926     0.2179 
+elb_09	   16926     0.2179 
 coal_18    20333    0.26176 
 tim_01	     15798    0.203378 
 gor_11	     19060    0.245372 

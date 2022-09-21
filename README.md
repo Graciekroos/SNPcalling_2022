@@ -221,7 +221,7 @@ I then removed the nine low-quality individuals from “popmap.txt” and saved 
 cat popmap.txt | grep -v tim_18 | grep -v wil_20 | grep -v elb_15 | grep -v gor_17 | grep -v gor_19 | grep -v gor_09 | grep -v bj_18 | grep -v tim_19 | grep -v elb_12 > popmap_nooutliersmissing.txt 
 ```
 
-I re-ran populations using Stacks, tolerating a maximum of 20% missing data at any given site (-r): 
+I re-ran populations using Stacks, tolerating a maximum of 20% missing data at any given site (-r). 
 
 ```
 populations -P output_refmap/ -M popmap_nooutliersmissing.txt  --vcf --structure --plink --treemix --max-obs-het 0.65 -r 0.80  -O output_refmap 

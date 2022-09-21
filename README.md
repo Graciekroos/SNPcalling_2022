@@ -9,7 +9,7 @@ mkdir sourcefiles
 cd sourcefiles
 ```
 
-I then subsetted the large files (.gz) to 250,000 bp reads as this will be quicker to test the initial structure and adapter content before working on the whole data. As this is paired-end data I repeated this on read 1 and read 2 independently.
+I then subsetted the large files (.gz) to 250,000 bp reads (.fq) as this will be quicker to test the initial structure and adapter content before working on the whole data. As this is paired-end data I repeated this on read 1 and read 2 independently.
 
 ```
 #!/bin/sh  

@@ -154,7 +154,7 @@ mkdir aligned_samples
 I then used a text editor to make a file called popmap.txt. This file excluded 8 samples that were not part of my data but were run on the same lane. I imported popmap.txt into the alignment folder. I was then able to run refmap, specifying the number of CPU's the programme was running as 4 (-t).
 
 ```
-ref_map.pl --samples ./aligned_samples/ --popmap ./popmap.txt -t 4 -o ./output_refmap 
+ref_map.pl --samples ./aligned_samples/ --popmap ./popmap.txt -T 4 -o ./output_refmap 
 ```
 
 An error at sample bj_23 prevented the programme refmap from finishing. Using the command ```ls -lh``` revealed samples that had been run by refmap and their respective read sizes. I identified samples that had low read sizes, and used Fastqc to inspect the total sequences. If samples had less than 200K reads and less than 200bp total sequence on Fastqc, they were removed from the popmap.txt file. Four samples were removed: bj_23, bj_24, gor_07, jim_19. This allowed the programme refmap to finish running.

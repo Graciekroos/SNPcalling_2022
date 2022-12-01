@@ -191,28 +191,28 @@ I then inspected the ouput folder created by VCFtools called "out.imiss" to look
 Some low-quality individuals with around 20% missing data which I retained as they still had plenty of data: 
 
 ```
-coal_03   15729     0.20249 
-coal_07   15695     0.202052 
-coal_01   16204     0.208605 
-elb_09	  16926     0.2179 
-coal_18   20333     0.26176 
-tim_01	   15798    0.203378 
-gor_11	   19060    0.245372 
-gor_18	   18369    0.236476  
+coal_03   15931     0.203189 
+coal_07   15877     0.2025 
+coal_01   16436     0.209629 
+elb_09	  17196     0.219323 
+coal_18   20491     0.261348 
+tim_01	   15886    0.202615 
+gor_11	   19168    0.244474 
+gor_18	   18475    0.235635  
 ```
 
 Some low-quality individuals with more than 50% missing data which I removed:
 
 ```
-tim_18	    42185     0.543075 
-wil_20	    54362     0.699838 
-elb_15      60330     0.776668 
-gor_17      70113     0.902611 
-gor_19	     70788    0.9113 
-gor_09	     72940    0.939005 
-bj_18	     76409    0.983663 
-tim_19	     76685    0.987216 
-elb_12	     76747    0.988015  
+tim_18	    42644     0.543894 
+wil_20	    54882     0.699981 
+elb_15      60707     0.774275 
+gor_17      70752     0.902391 
+gor_19	     71412    0.910809 
+gor_09	     73397    0.936127 
+bj_18	     77118    0.983585
+tim_19	     77409    0.987297 
+elb_12	     77486    0.988279 
 ```
 
 I then removed the nine low-quality individuals from “popmap.txt” and saved this as “popmap_nooutliersmissing.txt” which I used for further analyses.
@@ -227,7 +227,7 @@ I re-ran populations using Stacks, tolerating a maximum of 20% missing data at a
 populations -P output_refmap/ -M popmap_nooutliersmissing.txt  --vcf --structure --plink --treemix --max-obs-het 0.65 -r 0.80  -O output_refmap 
 ```
 
-67571 variant sites remained for 171 individuals  
+68011 variant sites remained for 171 individuals  
 
 I then downloaded the following files:
 

@@ -57,16 +57,7 @@ To clean the output of process_radtags (Stacks, Catchen et al.) This script is a
 In this case, THE ENZYME ON BOTH SIDE IS THE SAME (i.e. GBS protocol, Elshire et al. 2011), it would have to be adapted for different enzyymes on 3' of forward or reverse.
 INPUT files, typically output of process radtags. Files have to be gzipped.
 OUTPUT files are not gzipped, it is a new folder with all the sequence files in the input folder but cleaned of trailing barcodes
-Parameters lines 16-20, to adapt
-
-
 import gzip,re,os, argparse
-
-
-PARAMETERS TO ADAPT
-
-
-
 
 parser
 
@@ -86,7 +77,7 @@ args = parser.parse_args()
 #max_barcode_length=8 # Maximum length of barcode to look for.#
 ```
 
-#Initialise a bunch of counts
+Initialise a bunch of counts
 
 ```
 n_matches=0
@@ -96,16 +87,18 @@ total_length_matches=0 #in bp
 n_files=0
 ```
 
-#Find all gzip files in input folder
+Find all gzip files in input folder
 
 ```
 files = [args.input_folder+"/"+file for file in os.listdir(args.input_folder) if file.endswith("gz")]
 ```
 
-#If output folder does not exist, make it
+If output folder does not exist, make it
 
+```
 if not os.path.exists(args.cleaned_folder):
 		os.mkdir(args.cleaned_folder)
+```
 
 For each gzip file
 
@@ -140,7 +133,7 @@ for file in files:
 	
 ```
 
-summary
+Summary
 
 ```
 print("removed patterns",n_matches, "times out of", n_reads," for a total of", (total_length_matches/total_length)*100,"percent of bases")
